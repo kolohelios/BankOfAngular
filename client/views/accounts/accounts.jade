@@ -1,0 +1,45 @@
+h3 ACCOUNTS
+
+h4 Account Creation
+.row
+  .col-xs-3
+    form(name='accountTypeForm', novalidate)
+      .form-group
+        label(for='accountname') Account Name
+        input.form-control#accountName(type='text', name='accountname', ng-model='accountName')
+      .form-group
+        button.btn.btn-default(type='submit', ng-click='addAccount(accountName)') Add Account
+  .col-xs-8
+h4 Transactions
+.row
+  .col-xs-3
+    form(name='transactionForm', novalidate)
+      .form-group
+        label(for='accountType') Account Name
+        select.form-control#accountType(name='accountType' ng-model='tx.type')
+          option(ng-repeat='name in names') {{name}}
+      .form-group
+        label(for='amount') Amount
+        input.form-control#amount(name='amount' ng-model='tx.amount')
+      .form-group
+        label(for='date') Date
+        input.form-control#date(type='date' name='date' ng-model='tx.date')
+      .form-group
+        button.btn.btn-success(type='submit' ng-click='addTransaction("deposit", tx)') Deposit
+        button.btn.btn-danger(type='submit' ng-click='withdrawal("withdrawal", tx)') Withdrawal
+  .col-xs-8
+    table.table.table-striped(ng-repeat='(key, value) in afUser.accounts')
+      thead
+        tr
+          th Delete
+          th Amount
+          th Name
+          th Date
+          th Created At
+      tbody
+        tr(ng-repeat='transaction in afUser.accounts[key]')
+          td: button.btn.btn-danger(ng-click='deleteTransaction(transaction, $index)'): i.fa.fa-trash
+          td {{transaction.amount | currency}}
+          td {{transaction.name}}
+          td {{transaction.date | date: 'dd MMM yyyy'}}
+          td {{transaction.createdAt | date: 'dd MMM yyyy'}}
